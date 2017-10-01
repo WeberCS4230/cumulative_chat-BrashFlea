@@ -15,6 +15,7 @@ public class Student {
     	this.score = score;   	
     }
     
+    
     public void AddResponse(String Response) {
         this.responses.add(Response);
     }
@@ -25,13 +26,13 @@ public class Student {
         }
     }
     
-    
     public String GetResponse(int index) {
         //Add bounds checking
         return this.responses.get(index);  
     }
     
     public String GetResponse() {
+        //Returns the last response
         return this.responses.get(responses.size() -1);
     }
 	
