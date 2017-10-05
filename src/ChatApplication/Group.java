@@ -1,5 +1,8 @@
 package ChatApplication;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 public class Group {
 	protected Student student1;
 	protected Student student2;
@@ -40,13 +43,25 @@ public class Group {
     }
     
     public void RunChat() {
-        this.ListGroup();
-        System.out.println("Beginning chat");
         for(int i = 0; i < student1.responses.size(); i++) {
-            System.out.println("Student 1: " + this.student1.GetResponse(i));
-            System.out.println("Student 2: " + this.student2.GetResponse(i));
+            System.out.println(this.student1.firstName + ": " + this.student1.GetResponse(i));
+            System.out.println(this.student2.firstName + ": " + this.student2.GetResponse(i));
         }
-        System.out.println("Chat has ended");
+    }
+    
+    public String GetChatText() {
+        //Redirect the out stream to a ByteArrayOutputStream
+        //to collect the chat contents and return it as a string
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        
+        PrintStream old = System.out;
+        System.setOut(ps);
+        this.RunChat();
+        System.out.flush();
+        System.setOut(old);
+        
+        return baos.toString();
     }
     
     public void ListGroup() {
