@@ -43,12 +43,10 @@ public class Group {
     }
     
     public void RunChat() {
-        System.out.println("Beginning chat");
         for(int i = 0; i < student1.responses.size(); i++) {
             System.out.println(this.student1.firstName + ": " + this.student1.GetResponse(i));
             System.out.println(this.student2.firstName + ": " + this.student2.GetResponse(i));
         }
-        System.out.println("Chat has ended");
     }
     
     public String GetChatText() {

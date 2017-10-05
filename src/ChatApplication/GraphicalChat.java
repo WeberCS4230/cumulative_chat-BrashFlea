@@ -50,7 +50,7 @@ public class GraphicalChat extends JFrame {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         
         add(chatArea, gbc1);
-               
+                
     }
     
     private void addScrollBar() {
@@ -67,6 +67,7 @@ public class GraphicalChat extends JFrame {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         
         add(scroll, gbc1);
+        
     }
     
     private void showChatInput() {
@@ -75,7 +76,6 @@ public class GraphicalChat extends JFrame {
         chatInput.setLineWrap(true);
         chatInput.setWrapStyleWord(true);
         chatInput.setEditable(true);
-        
         
         gbc1.gridx = 0;
         gbc1.gridy = 1;
@@ -88,19 +88,25 @@ public class GraphicalChat extends JFrame {
         
         chatInput.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                chatInput.setText("");
+                if(chatInput.getText().trim().equals("Enter chat text here")) {
+                    chatInput.setText("");
+                }
             }
         });
         
         chatInput.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if((e.getKeyCode() == KeyEvent.VK_ENTER && e.getModifiers() == KeyEvent.CTRL_MASK)) {
+                    //Add the message text to the chat box
                     chatArea.append(chatInput.getText() + '\n');
+                    //Clear the input box
                     chatInput.setText("");
+                    //Scroll to the bottom of the chat box
+                    chatArea.setCaretPosition(chatArea.getDocument().getLength());
                 }
             }
         });
-               
+                      
     }
     
     protected void showInputButton() {
@@ -116,8 +122,12 @@ public class GraphicalChat extends JFrame {
         
         inputSend.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                //Add the message text to the chat box
                 chatArea.append(chatInput.getText() + '\n');
+                //Clear the input box
                 chatInput.setText("");
+                //Scroll to the bottom of the chat box
+                chatArea.setCaretPosition(chatArea.getDocument().getLength());
             }
         });
              
