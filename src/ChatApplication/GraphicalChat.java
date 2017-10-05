@@ -1,54 +1,90 @@
 package ChatApplication;
 
-import ChatApplication.Group;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class GraphicalChat extends JFrame {
-    private JLabel mainFrame;
+    
+    private static final long serialVersionUID = 1L;
+    protected JTextArea chatArea = null;
+    protected JTextArea chatInput = null;
+    protected JButton inputSend = null;
+    protected GridBagConstraints gbc1 = new GridBagConstraints();
+    protected Font hv = new Font("Helvetica", Font.PLAIN, 14);
+    protected Font co = new Font("Courier", Font.ITALIC, 12);
     
     
     public GraphicalChat(String textToDisplay) {
         initUI();
         showTextArea(textToDisplay);
+        addScrollBar();
         showChatInput();
+        showInputButton();
         
     }
 
     private void initUI() {
-        setTitle("CS3230 Graphical Chat");
-        setLayout(new GridLayout(2,1));
-        setSize(400,400);
+        setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
+        setLayout(new GridBagLayout());
+        setSize(400,515);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        
     }
     
     private void showTextArea(String textToDisplay) {
-        JTextArea chatArea = new JTextArea(textToDisplay, 10, 25);
-        Font hv = new Font("Helvetica", Font.PLAIN, 14);
+        chatArea = new JTextArea(textToDisplay, 10, 25);
         chatArea.setFont(hv);
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
         chatArea.setEditable(false);
-        add(chatArea);
         
+        gbc1.gridx = 0;
+        gbc1.gridy = 0;
+        gbc1.gridwidth = 6;
+        gbc1.gridheight = 7;
+        gbc1.weightx = 1;
+        gbc1.weighty = 1;
+        gbc1.anchor = GridBagConstraints.CENTER;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        
+        add(chatArea, gbc1);
+               
+    }
+    
+    private void addScrollBar() {
         JScrollPane scroll = new JScrollPane(chatArea);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scroll);
         
+        gbc1.gridx = 0;
+        gbc1.gridy = 0;
+        gbc1.gridwidth = 1;
+        gbc1.gridheight = 1;
+        gbc1.weightx = 1;
+        gbc1.weighty = 1;
+        gbc1.anchor = GridBagConstraints.CENTER;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        
+        add(scroll, gbc1);
     }
     
     private void showChatInput() {
-        JTextArea chatInput = new JTextArea("Enter chat text here", 15, 10);
-        Font co = new Font("Courier", Font.ITALIC, 12);
+        chatInput = new JTextArea("Enter chat text here", 15, 10);
         chatInput.setFont(co);
         chatInput.setLineWrap(true);
         chatInput.setWrapStyleWord(true);
         chatInput.setEditable(true);
-        add(chatInput);
+        
+        
+        gbc1.gridx = 0;
+        gbc1.gridy = 1;
+        gbc1.gridwidth = 6;
+        gbc1.gridheight = 1;
+        gbc1.anchor = GridBagConstraints.CENTER;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        
+        add(chatInput, gbc1);
         
         chatInput.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -56,9 +92,35 @@ public class GraphicalChat extends JFrame {
             }
         });
         
+        chatInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if((e.getKeyCode() == KeyEvent.VK_ENTER && e.getModifiers() == KeyEvent.CTRL_MASK)) {
+                    chatArea.append(chatInput.getText() + '\n');
+                    chatInput.setText("");
+                }
+            }
+        });
+               
     }
     
-    
-
-
+    protected void showInputButton() {
+        inputSend = new JButton("Send");
+        
+        gbc1.gridx = 0;
+        gbc1.gridy = 2;
+        gbc1.gridwidth = 6;
+        gbc1.gridheight = 3;
+        gbc1.anchor = GridBagConstraints.CENTER;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        add(inputSend, gbc1);
+        
+        inputSend.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                chatArea.append(chatInput.getText() + '\n');
+                chatInput.setText("");
+            }
+        });
+             
+    }
+       
 }
