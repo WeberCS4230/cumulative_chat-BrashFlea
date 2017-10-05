@@ -2,11 +2,14 @@ package ChatApplication;
 
 import ChatApplication.Student;
 import ChatApplication.Group;
+
+import java.awt.EventQueue;
 import java.util.Random;
 
 public class StudentChat {
 
     public static void main(String[] args) {
+                
       //Create the student objects
       Student student1 = new Student("Jonathan", "Mirabile", 1);
       Student student2 = new Student("Justin", "Behunin", 2);
@@ -49,19 +52,32 @@ public class StudentChat {
       
       switch(n){
           case 1:
-              group1.RunChat();
+              EventQueue.invokeLater(() -> {
+                  GraphicalChat ex = new GraphicalChat(group1.GetChatText());
+                  ex.setVisible(true);
+              });
               break;
           case 2:
-              group2.RunChat();
+              EventQueue.invokeLater(() -> {
+                  GraphicalChat ex = new GraphicalChat(group2.GetChatText());
+                  ex.setVisible(true);
+              });
               break;
           case 3:
-              group3.RunChat();
+              EventQueue.invokeLater(() -> {
+                  GraphicalChat ex = new GraphicalChat(group3.GetChatText());
+                  ex.setVisible(true);
+              });
               break;
           case 4:
-              group4.RunChat();
+              EventQueue.invokeLater(() -> {
+                  GraphicalChat ex = new GraphicalChat(group4.GetChatText());
+                  ex.setVisible(true);
+              });
               break;     
       }
       
+     
     }
     
 }
