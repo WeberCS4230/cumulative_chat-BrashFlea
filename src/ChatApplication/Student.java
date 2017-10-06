@@ -16,22 +16,22 @@ public class Student {
     }
     
     
-    public void AddResponse(String Response) {
-        this.responses.add(Response);
+    public void addResponse(String response) {
+        this.responses.add(response);
     }
     
-    public void AddResponse(String[] Response) {
-        for(int i=0; i < Response.length; i++) {
-            this.responses.add(Response[i]);
+    public void addResponses(String[] responses) {
+	for (String response: responses) {
+            this.responses.add(response);
         }
     }
     
-    public String GetResponse(int index) {
+    public String getResponse(int index) {
         //Add bounds checking
         return this.responses.get(index);  
     }
     
-    public String GetResponse() {
+    public String getLastResponse() {
         //Returns the last response
         return this.responses.get(responses.size() -1);
     }
