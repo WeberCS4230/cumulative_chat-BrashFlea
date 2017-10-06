@@ -1,6 +1,6 @@
 package ChatApplication;
 
-public class Group {
+public class Group implements Comparable<Group> {
 	protected Student student1;
 	protected Student student2;
 	
@@ -10,33 +10,10 @@ public class Group {
     	this.SortGroup();   	
     }
     
-    public void SortGroup(){
-        int compareFirstName = this.student1.firstName.compareToIgnoreCase(this.student2.firstName);
-        
-        if (compareFirstName < 0) {
-            //Already sorted
-        }
-        else if (compareFirstName > 0) {
-            Student temp = student2;
-            this.student2 = this.student1;
-            this.student1 = temp;         
-        }
-        else if (compareFirstName == 0) {
-            //Same first name, check last name
-            int compareLastName = this.student1.lastName.compareToIgnoreCase(this.student2.lastName);
-            
-            if (compareLastName < 0) {
-                //Already sorted
-            }
-            else if (compareLastName > 0) {
-                Student temp = student2;
-                this.student2 = this.student1;
-                this.student1 = temp;         
-            }
-            else if (compareLastName == 0) {
-                //Same last name. No sort needed
-            }
-        }                    
+    @Override
+    public int compareTo(Group otherGroup) {
+	    // TODO implement your comparison code here
+	    return 0;
     }
     
     public void RunChat() {
