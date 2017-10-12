@@ -54,9 +54,16 @@ public class StudentChat {
       int n = rand.nextInt(4) + 1;
       
       System.out.println("Starting Client");
-      ChatClient client = new ChatClient("127.0.0.1");
-      client.testConnection();
-      client.sendTextToServer("Test Sending Text To Server");
+      GraphicalChat chat = new GraphicalChat("127.0.0.1");
+      /*ChatClient client = new ChatClient("");
+      if (client.connected) {
+          System.out.println("Client Connected");
+      }
+      client.sendTextToServer("Test1");
+      client.sendTextToServer("Test2");
+      client.sendTextToServer("Test3");
+      client.sendTextToServer("Test4");*/
+      
       
       
       switch(n){

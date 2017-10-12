@@ -17,18 +17,11 @@ public class GraphicalChat extends JFrame {
     protected Font co = new Font("Courier", Font.ITALIC, 12);
     
     protected boolean clientConnected = false;
+    ChatClient client = null;
     
     
-    public GraphicalChat(String textToDisplay) {
-        
-        showIPAddressInput();
-        
-        /*initUI();
-        showTextArea(textToDisplay);
-        addScrollBar();
-        showChatInput();
-        showInputButton();*/
-        
+    public GraphicalChat(String textToDisplay) { 
+        showIPAddressInput();            
     }
 
     private void initUI() {
@@ -37,15 +30,17 @@ public class GraphicalChat extends JFrame {
         setSize(400,515);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
     }
     
     private void showIPAddressInput() {
-        setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
-        setLayout(new FlowLayout());
-        setSize(400, 100);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JFrame inputBox = new JFrame();
+        inputBox.setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
+        inputBox.setLayout(new FlowLayout());
+        inputBox.setSize(400, 100);
+        inputBox.setLocationRelativeTo(null);
+        inputBox.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        inputBox.setVisible(true);
                
         ipInputText = new JTextField("Enter the IP Address of the server: ");
         ipInputText.setEditable(false);
@@ -57,10 +52,15 @@ public class GraphicalChat extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 //Pass the value from the ipInput box to the ChatClient and test the connection
                 if(ipInput.getText() != "") {
-                    ChatClient newClient = new ChatClient(ipInput.getText());
-                    if(newClient.connected == true) {
-                        //If the connection is good, close the window and open the chat box
-                        dispose();
+                     client = new ChatClient(ipInput.getText());
+                    if(client.connected == true) {
+                        //If the connection is good, hide the window and open the chat box
+                        inputBox.dispose();
+                        initUI();
+                        showTextArea();
+                        addScrollBar();
+                        showChatInput();
+                        showInputButton();
                     }
                     else {
                         ipInput.setText("");
@@ -69,14 +69,14 @@ public class GraphicalChat extends JFrame {
             }
         });
               
-        add(ipInputText);
-        add(ipInput);
-        add(submit);
+        inputBox.add(ipInputText);
+        inputBox.add(ipInput);
+        inputBox.add(submit);
             
     }
     
-    private void showTextArea(String textToDisplay) {
-        chatArea = new JTextArea(textToDisplay, 10, 25);
+    private void showTextArea() {
+        chatArea = new JTextArea(null, 10, 25);
         chatArea.setFont(hv);
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
@@ -139,8 +139,8 @@ public class GraphicalChat extends JFrame {
         chatInput.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if((e.getKeyCode() == KeyEvent.VK_ENTER && e.getModifiers() == KeyEvent.CTRL_MASK)) {
-                    //Add the message text to the chat box
-                    chatArea.append(chatInput.getText() + '\n');
+                    //Send the message to the chat server
+                    client.sendTextToServer(chatInput.getText());
                     //Clear the input box
                     chatInput.setText("");
                     //Scroll to the bottom of the chat box
@@ -164,8 +164,9 @@ public class GraphicalChat extends JFrame {
         
         inputSend.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                //Add the message text to the chat box
-                chatArea.append(chatInput.getText() + '\n');
+                //Send the message to the chat server
+                client.sendTextToServer(chatInput.getText());
+                
                 //Clear the input box
                 chatInput.setText("");
                 //Scroll to the bottom of the chat box
