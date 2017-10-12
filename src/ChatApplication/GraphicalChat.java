@@ -3,24 +3,31 @@ package ChatApplication;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import ChatApplication.ChatClient;
 
 public class GraphicalChat extends JFrame {
     
     private static final long serialVersionUID = 1L;
     protected JTextArea chatArea = null;
     protected JTextArea chatInput = null;
+    protected JTextField ipInputText = null;
     protected JButton inputSend = null;
     protected GridBagConstraints gbc1 = new GridBagConstraints();
     protected Font hv = new Font("Helvetica", Font.PLAIN, 14);
     protected Font co = new Font("Courier", Font.ITALIC, 12);
     
+    protected boolean clientConnected = false;
+    
     
     public GraphicalChat(String textToDisplay) {
-        initUI();
+        
+        showIPAddressInput();
+        
+        /*initUI();
         showTextArea(textToDisplay);
         addScrollBar();
         showChatInput();
-        showInputButton();
+        showInputButton();*/
         
     }
 
@@ -31,6 +38,41 @@ public class GraphicalChat extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
+    }
+    
+    private void showIPAddressInput() {
+        setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
+        setLayout(new FlowLayout());
+        setSize(400, 100);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+               
+        ipInputText = new JTextField("Enter the IP Address of the server: ");
+        ipInputText.setEditable(false);
+        
+        JTextField ipInput = new JTextField(10);
+        JButton submit = new JButton("Submit");
+        
+        submit.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                //Pass the value from the ipInput box to the ChatClient and test the connection
+                if(ipInput.getText() != "") {
+                    ChatClient newClient = new ChatClient(ipInput.getText());
+                    if(newClient.connected == true) {
+                        //If the connection is good, close the window and open the chat box
+                        dispose();
+                    }
+                    else {
+                        ipInput.setText("");
+                    }
+                }
+            }
+        });
+              
+        add(ipInputText);
+        add(ipInput);
+        add(submit);
+            
     }
     
     private void showTextArea(String textToDisplay) {

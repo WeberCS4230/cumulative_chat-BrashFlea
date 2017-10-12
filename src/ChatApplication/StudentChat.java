@@ -2,8 +2,11 @@ package ChatApplication;
 
 import ChatApplication.Student;
 import ChatApplication.Group;
+import ChatApplication.ChatClient;
+import ChatApplication.ChatServer;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.util.Random;
 
 public class StudentChat {
@@ -49,6 +52,12 @@ public class StudentChat {
       //Run a random group chat
       Random rand = new Random();
       int n = rand.nextInt(4) + 1;
+      
+      System.out.println("Starting Client");
+      ChatClient client = new ChatClient("127.0.0.1");
+      client.testConnection();
+      client.sendTextToServer("Test Sending Text To Server");
+      
       
       switch(n){
           case 1:
