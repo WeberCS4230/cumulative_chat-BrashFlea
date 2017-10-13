@@ -27,7 +27,8 @@ public class GraphicalChat extends JFrame {
     private void initUI() {
         setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
         setLayout(new GridBagLayout());
-        setSize(400,515);
+        setSize(400,505);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -166,14 +167,18 @@ public class GraphicalChat extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 //Send the message to the chat server
                 client.sendTextToServer(chatInput.getText());
-                
                 //Clear the input box
                 chatInput.setText("");
+                chatArea.append(client.readTextFromServer() + "\n");
                 //Scroll to the bottom of the chat box
                 chatArea.setCaretPosition(chatArea.getDocument().getLength());
             }
         });
              
+    }
+    
+    public void displayChatText(String textToDisplay) {
+        chatArea.append(textToDisplay + '\n');
     }
        
 }

@@ -22,10 +22,11 @@ public class ChatClient {
             client = new Socket (ipAddress, port);
             out = new DataOutputStream(client.getOutputStream());
             in = new InputStreamReader(client.getInputStream());
-            
-            pw = new PrintWriter(out, true);
+
+            pw = new PrintWriter(out, false);
+            br = new BufferedReader(in);
             connected = true;
-                              
+                                 
         } catch (IOException e) {
             System.out.println("Unable to connect using IPAddress: " + ipAddress);
             connected = false;
@@ -38,6 +39,24 @@ public class ChatClient {
     protected void sendTextToServer(String text) {
         pw.println(text);
         pw.flush();    
+    }
+    
+    protected String readTextFromServer() {
+        String input;
+        String output = "";
+
+        try {
+            while((input = br.readLine()) != null && !(input.equalsIgnoreCase("EOM"))) {
+                if(input.equalsIgnoreCase("ACK")) {
+                    input = "";
+                }
+                output += input;
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return output;
     }
     
     protected void disconnectFromServer() {

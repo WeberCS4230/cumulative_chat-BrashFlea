@@ -26,7 +26,7 @@ public class ChatServer {
                 in = new InputStreamReader(server.getInputStream());
                 out = new DataOutputStream(server.getOutputStream());
                 
-                pw = new PrintWriter(out, true);
+                pw = new PrintWriter(out, false);
                 pw.println("ACK");
                 pw.flush();
                 
@@ -35,7 +35,10 @@ public class ChatServer {
                 String input;
                 
                 while((input = br.readLine()) != null) {
-                    System.out.println("Message Recieved: " + input);                   
+                    System.out.println("Message Recieved from Client: " + input);
+                    pw.println(input);
+                    pw.println("EOM");
+                    pw.flush();
                 }
 
 
