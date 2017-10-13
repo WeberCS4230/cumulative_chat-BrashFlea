@@ -2,6 +2,7 @@ package ChatApplication;
 
 import java.io.*;
 import java.net.*;
+import ChatApplication.GraphicalChat;
 
 public class ChatClient {
     private int port = 8090;
@@ -11,6 +12,7 @@ public class ChatClient {
     protected InputStreamReader in = null;
     protected PrintWriter pw = null;
     protected BufferedReader br = null;
+    protected String clientName = "";
     
     public ChatClient(String ipAddress) {
         startClient(ipAddress);
@@ -48,7 +50,10 @@ public class ChatClient {
         try {
             while((input = br.readLine()) != null && !(input.equalsIgnoreCase("EOM"))) {
                 if(input.equalsIgnoreCase("ACK")) {
-                    input = "";
+                    input= "";
+                    input = br.readLine();
+                    this.setClientName(input);
+                    input= "Has joined the chat";
                 }
                 output += input;
             }
@@ -56,6 +61,7 @@ public class ChatClient {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println("Message Recieved from Server: "  + "\n" + this.getClientName() + ": " + output);
         return output;
     }
     
@@ -83,6 +89,16 @@ public class ChatClient {
         return connected;
 
     }
+    
+    public void setClientName(String chatName) {
+        this.clientName = chatName;
+    }
+    
+    public String getClientName() {
+        return this.clientName;
+    }
+    
+
     
     protected void startNewServer() {
         

@@ -54,17 +54,7 @@ public class StudentChat {
       int n = rand.nextInt(4) + 1;
       
       System.out.println("Starting Client");
-      /*ChatClient client = new ChatClient("");
-      if (client.connected) {
-          System.out.println("Client Connected");
-      }
-      client.sendTextToServer("Test1");
-      client.sendTextToServer("Test2");
-      client.sendTextToServer("Test3");
-      client.sendTextToServer("Test4");*/
-      
-      
-      
+
       switch(n){
           case 1:
               EventQueue.invokeLater(() -> {

@@ -131,7 +131,7 @@ public class GraphicalChat extends JFrame {
     }
     
     private void showChatInput() {
-        chatInput = new JTextArea("Enter chat text here", 15, 10);
+        chatInput = new JTextArea("Enter chat name here", 15, 10);
         chatInput.setFont(co);
         chatInput.setLineWrap(true);
         chatInput.setWrapStyleWord(true);
@@ -148,7 +148,7 @@ public class GraphicalChat extends JFrame {
         
         chatInput.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(chatInput.getText().trim().equals("Enter chat text here")) {
+                if(chatInput.getText().trim().equals("Enter chat name here")) {
                     chatInput.setText("");
                 }
             }
@@ -184,7 +184,13 @@ public class GraphicalChat extends JFrame {
     }
     
     public void displayChatText(String textToDisplay) {
-        chatArea.append(textToDisplay + '\n');
+        if(client.getClientName() != "") {
+            chatArea.append(client.getClientName() + ": " + textToDisplay + '\n');
+        }
+        else {
+            chatArea.append(textToDisplay + '\n');
+        }
+
     }
     
     protected void updateChatBox() {
