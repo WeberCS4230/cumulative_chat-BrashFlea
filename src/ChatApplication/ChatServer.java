@@ -16,7 +16,6 @@ public class ChatServer {
         serverSocket = new ServerSocket(port);       
     }
     
-    
     public void run() {
         while(true) {
             try {
@@ -26,7 +25,7 @@ public class ChatServer {
                 in = new InputStreamReader(server.getInputStream());
                 out = new DataOutputStream(server.getOutputStream());
                 
-                pw = new PrintWriter(out, false);
+                pw = new PrintWriter(out, true);
                 pw.println("ACK");
                 pw.flush();
                 
@@ -40,7 +39,6 @@ public class ChatServer {
                     pw.println("EOM");
                     pw.flush();
                 }
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -63,11 +61,12 @@ public class ChatServer {
             }
             
         }
+        
     }
     
     protected void sendTextToClient(String text) {
         pw.println(text);
-        pw.flush();    
+        pw.flush();
     }
     
     public static void main(String[] args) {
@@ -77,7 +76,7 @@ public class ChatServer {
           ChatServer server = new ChatServer();
           server.run();
       } catch (IOException e) {
-          System.out.println("Error starting server");
+          System.out.println("Error starting server - server instance already running");
       }
            
     }

@@ -23,7 +23,7 @@ public class ChatClient {
             out = new DataOutputStream(client.getOutputStream());
             in = new InputStreamReader(client.getInputStream());
 
-            pw = new PrintWriter(out, false);
+            pw = new PrintWriter(out, true);
             br = new BufferedReader(in);
             connected = true;
                                  

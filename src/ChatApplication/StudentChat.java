@@ -54,7 +54,6 @@ public class StudentChat {
       int n = rand.nextInt(4) + 1;
       
       System.out.println("Starting Client");
-      GraphicalChat chat = new GraphicalChat("127.0.0.1");
       /*ChatClient client = new ChatClient("");
       if (client.connected) {
           System.out.println("Client Connected");

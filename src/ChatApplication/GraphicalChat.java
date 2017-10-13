@@ -21,7 +21,7 @@ public class GraphicalChat extends JFrame {
     
     
     public GraphicalChat(String textToDisplay) { 
-        showIPAddressInput();            
+        showIPAddressInput(textToDisplay);            
     }
 
     private void initUI() {
@@ -30,11 +30,27 @@ public class GraphicalChat extends JFrame {
         setSize(400,505);
         setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                     null, "Are You Sure to Close Application?", 
+                     "Exit Confirmation", JOptionPane.YES_NO_OPTION, 
+                     JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0) {
+                	client.disconnectFromServer();
+                   System.exit(0);
+                }
+            }
+        };
+        addWindowListener(exitListener);
 
     }
     
-    private void showIPAddressInput() {
+    private void showIPAddressInput(String textToDisplay) {
         JFrame inputBox = new JFrame();
         inputBox.setTitle("CS3230 Graphical Chat - Jonathan Mirabile");
         inputBox.setLayout(new FlowLayout());
@@ -62,6 +78,7 @@ public class GraphicalChat extends JFrame {
                         addScrollBar();
                         showChatInput();
                         showInputButton();
+                        chatArea.append(textToDisplay);
                     }
                     else {
                         ipInput.setText("");
@@ -140,12 +157,7 @@ public class GraphicalChat extends JFrame {
         chatInput.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if((e.getKeyCode() == KeyEvent.VK_ENTER && e.getModifiers() == KeyEvent.CTRL_MASK)) {
-                    //Send the message to the chat server
-                    client.sendTextToServer(chatInput.getText());
-                    //Clear the input box
-                    chatInput.setText("");
-                    //Scroll to the bottom of the chat box
-                    chatArea.setCaretPosition(chatArea.getDocument().getLength());
+                	updateChatBox();
                 }
             }
         });
@@ -165,13 +177,7 @@ public class GraphicalChat extends JFrame {
         
         inputSend.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                //Send the message to the chat server
-                client.sendTextToServer(chatInput.getText());
-                //Clear the input box
-                chatInput.setText("");
-                chatArea.append(client.readTextFromServer() + "\n");
-                //Scroll to the bottom of the chat box
-                chatArea.setCaretPosition(chatArea.getDocument().getLength());
+            	updateChatBox();
             }
         });
              
@@ -179,6 +185,17 @@ public class GraphicalChat extends JFrame {
     
     public void displayChatText(String textToDisplay) {
         chatArea.append(textToDisplay + '\n');
+    }
+    
+    protected void updateChatBox() {
+        //Send the message to the chat server
+        client.sendTextToServer(chatInput.getText());
+        //Clear the input box
+        chatInput.setText("");
+        //Read the message from the server and display it
+        displayChatText(client.readTextFromServer());
+        //Scroll to the bottom of the chat box
+        chatArea.setCaretPosition(chatArea.getDocument().getLength());	
     }
        
 }
