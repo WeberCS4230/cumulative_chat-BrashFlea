@@ -50,6 +50,7 @@ public class Group {
     }
     
     public String GetChatText() {
+	// um - overcomplicated much? When we're talking about extensible, I shouldn't have to intercept System.out in order to get the ouptut of a method.
         //Redirect the out stream to a ByteArrayOutputStream
         //to collect the chat contents and return it as a string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
