@@ -41,41 +41,18 @@ public class StudentChat {
       student8.AddResponse(ChristopherResponses);
       
       //Create groups
-      Group group1 = new Group(student3, student4);
-      Group group2 = new Group(student2, student5);
-      Group group3 = new Group(student1, student6);
-      Group group4 = new Group(student7, student8);
+      Group[] groups = new Group[4];
+      groups[0] = new Group(student3, student4);
+      groups[1] = new Group(student2, student5);
+      groups[2] = new Group(student1, student6);
+      groups[3] = new Group(student7, student8);
       
       //Run a random group chat
       Random rand = new Random();
-      int n = rand.nextInt(4) + 1;
+      int n = rand.nextInt(4);
       
-      switch(n){
-          case 1:
-              EventQueue.invokeLater(() -> {
-                  GraphicalChat ex = new GraphicalChat(group1.GetChatText());
-                  ex.setVisible(true);
-              });
-              break;
-          case 2:
-              EventQueue.invokeLater(() -> {
-                  GraphicalChat ex = new GraphicalChat(group2.GetChatText());
-                  ex.setVisible(true);
-              });
-              break;
-          case 3:
-              EventQueue.invokeLater(() -> {
-                  GraphicalChat ex = new GraphicalChat(group3.GetChatText());
-                  ex.setVisible(true);
-              });
-              break;
-          case 4:
-              EventQueue.invokeLater(() -> {
-                  GraphicalChat ex = new GraphicalChat(group4.GetChatText());
-                  ex.setVisible(true);
-              });
-              break;     
-      }
+      // As noted in GraphicalChat.java:
+      new GraphicalChat(groups[n].getChatText());
       
      
     }
