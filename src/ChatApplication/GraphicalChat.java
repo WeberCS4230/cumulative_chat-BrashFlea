@@ -11,8 +11,8 @@ public class GraphicalChat extends JFrame {
     protected JTextArea chatInput = null;
     protected JButton inputSend = null;
     protected GridBagConstraints gbc1 = new GridBagConstraints();
-    protected Font hv = new Font("Helvetica", Font.PLAIN, 14);
-    protected Font co = new Font("Courier", Font.ITALIC, 12);
+    protected static final Font HELVETICA = new Font("Helvetica", Font.PLAIN, 14);
+    protected static final Font COURIER = new Font("Courier", Font.ITALIC, 12);
     
     
     public GraphicalChat(String textToDisplay) {
@@ -22,6 +22,9 @@ public class GraphicalChat extends JFrame {
         showChatInput();
         showInputButton();
         
+        // One thing to note is that creating a new JFrame (which GraphicalChat extends) begins it's own UI thread - you don't have to call the EventQueue to get that functionality.
+	    // Setting up GraphicalChat (in it's constructor) to call setVisible(true) at the end actually gives you the following to invoke the constructor: new GraphicalChat(String). Done.
+        setVisible(true);
     }
 
     private void initUI() {
@@ -35,7 +38,7 @@ public class GraphicalChat extends JFrame {
     
     private void showTextArea(String textToDisplay) {
         chatArea = new JTextArea(textToDisplay, 10, 25);
-        chatArea.setFont(hv);
+        chatArea.setFont(HELVETICA);
         chatArea.setLineWrap(true);
         chatArea.setWrapStyleWord(true);
         chatArea.setEditable(false);
@@ -72,7 +75,7 @@ public class GraphicalChat extends JFrame {
     
     private void showChatInput() {
         chatInput = new JTextArea("Enter chat text here", 15, 10);
-        chatInput.setFont(co);
+        chatInput.setFont(COURIER);
         chatInput.setLineWrap(true);
         chatInput.setWrapStyleWord(true);
         chatInput.setEditable(true);
