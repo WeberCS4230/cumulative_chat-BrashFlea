@@ -2,6 +2,7 @@ package ChatApplication;
 
 import java.io.*;
 import java.net.*;
+// Unused import -2pts
 import ChatApplication.GraphicalChat;
 
 public class ChatClient {
@@ -15,11 +16,13 @@ public class ChatClient {
     protected String clientName = "";
     
     public ChatClient(String ipAddress) {
+        // Chat does not start it's own copy of the server if none is found -5pts
         startClient(ipAddress);
         
     }
     
     protected boolean startClient(String ipAddress) {
+        // ChatClient blocks waiting for the server and doesn't tell the user what is happening
         try {
             client = new Socket (ipAddress, port);
             out = new DataOutputStream(client.getOutputStream());
@@ -43,11 +46,13 @@ public class ChatClient {
         pw.flush();    
     }
     
+    // Note that doing an explicit read is not required if you're using threads for the input portion
     protected String readTextFromServer() {
         String input;
         String output = "";
 
         try {
+            // ChatClient blocks when it hasn't received EOM - this is not a requirement, and breaks interoperability with other clients
             while((input = br.readLine()) != null && !(input.equalsIgnoreCase("EOM"))) {
                 if(input.equalsIgnoreCase("ACK")) {
                     input= "";
