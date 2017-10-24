@@ -33,6 +33,8 @@ public class ChatServer {
                 
                 String input;
                 
+                // Your server blocks any new connections as soon as it has one, so only one client can connect at a time -5pts
+                // If you resolve this issue, the PrintWriter is only created once, as well - part of what I said about having these variables local would actually fix the issues you have here
                 while((input = br.readLine()) != null) {
                     System.out.println("Message Recieved from Client: " + input);
                     pw.println(input);
